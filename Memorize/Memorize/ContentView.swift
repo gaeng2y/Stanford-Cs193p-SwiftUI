@@ -8,14 +8,18 @@
 import SwiftUI
 
 struct ContentView: View {
-    var emojis: Array<String> = ["🏎", "🚌", "🚎", "🚐", "🚑", "🚒", "🚓", "🚕", "🚗", "🚙", "🚚", "🚛", "🚜", "🚲", "🛴", "🛵", "🛺", "🏍", "🚅"]
-    @State var emojiCount: Int = 4
+    var emojis: Array<String> = ["🏎", "🚌", "🚎", "🚐", "🚑", "🚒", "🚓", "🚕", "🚗", "🚙", "🚚", "🚛", "🚜", "🚲", "🛴", "🛵", "🛺", "🏍", "🚅", "🚟", "✈️", "🛩", "🛸", "🚂", "🚈"]
+    @State var emojiCount: Int = 10
     
     var body: some View {
         VStack {
-            LazyVGrid(columns: [GridItem(), GridItem(), GridItem(), GridItem()]) {
-                ForEach(emojis[0..<emojiCount], id: \.self) {
-                    CardView(content: $0)
+            ScrollView {
+                // 너비에 맞게 넣기 위해서는 GridItem(.adaptive(~)를 쓴다
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 65))]) {
+                    ForEach(emojis[0..<emojiCount], id: \.self) {
+                        CardView(content: $0)
+                            .aspectRatio(2/3, contentMode: .fit)
+                    }
                 }
             }
             .foregroundColor(.red)
@@ -66,7 +70,7 @@ struct CardView: View {
                     .fill()
                     .foregroundColor(.white)
                 shape
-                    .stroke(lineWidth: 3)
+                    .strokeBorder(lineWidth: 3)
                 Text(content)
                     .font(.largeTitle)
             } else {
